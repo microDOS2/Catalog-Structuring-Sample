@@ -1,0 +1,2084 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Optimal Structure for Multilingual Agricultural Product Catalogs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Canela:wght@300;400;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        :root {
+            --color-insect: #059669; /* Emerald green */
+            --color-cleaner: #2563eb; /* Rich blue */
+            --color-odor: #ea580c; /* Warm orange */
+            --color-animal: #eab308; /* Golden yellow */
+            --color-neutral: #6b7280; /* Stone gray */
+            --color-text: #374151; /* Deep charcoal */
+        }
+        
+        .font-canela { font-family: 'Canela', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        .text-insect { color: var(--color-insect); }
+        .text-cleaner { color: var(--color-cleaner); }
+        .text-odor { color: var(--color-odor); }
+        .text-animal { color: var(--color-animal); }
+        
+        .bg-insect { background-color: var(--color-insect); }
+        .bg-cleaner { background-color: var(--color-cleaner); }
+        .bg-odor { background-color: var(--color-odor); }
+        .bg-animal { background-color: var(--color-animal); }
+        
+        .border-insect { border-color: var(--color-insect); }
+        .border-cleaner { border-color: var(--color-cleaner); }
+        .border-odor { border-color: var(--color-odor); }
+        .border-animal { border-color: var(--color-animal); }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, 
+                rgba(5, 150, 105, 0.1) 0%, 
+                rgba(37, 99, 235, 0.1) 25%,
+                rgba(234, 88, 12, 0.1) 50%,
+                rgba(234, 179, 8, 0.1) 75%,
+                rgba(107, 114, 128, 0.1) 100%);
+        }
+        
+        .toc-fixed {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 280px;
+            max-height: calc(100vh - 4rem);
+            overflow-y: auto;
+            z-index: 50;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .main-content {
+            margin-left: 320px;
+            max-width: calc(100vw - 360px);
+        }
+        
+        .section-anchor {
+            scroll-margin-top: 2rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .toc-fixed {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+            }
+        }
+        
+        .citation-link {
+            color: var(--color-cleaner);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dotted var(--color-cleaner);
+        }
+        
+        .citation-link:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-bottom-style: solid;
+        }
+        
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        .hero-title {
+            grid-column: 1 / 2;
+            grid-row: 1 / 3;
+        }
+        
+        .hero-visual {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+        }
+        
+        .hero-summary {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+        }
+        
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+            
+            .hero-title {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            
+            .hero-visual {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            
+            .hero-summary {
+                grid-column: 1;
+                grid-row: 3;
+            }
+        }
+    </style>
+  <base target="_blank">
+</head>
+
+  <body class="font-inter text-gray-800 bg-white">
+
+    <!-- Fixed Table of Contents -->
+    <nav class="toc-fixed">
+      <div class="p-6">
+        <h3 class="font-canela text-lg font-bold text-gray-900 mb-4">Contents</h3>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href="#executive-summary" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">Executive Summary</a>
+          </li>
+          <li>
+            <a href="#architecture" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">1. Information Architecture</a>
+          </li>
+          <li>
+            <a href="#categorization" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">2. Primary Categorization</a>
+          </li>
+          <li>
+            <a href="#audience-layers" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">3. Audience-Specific Layers</a>
+          </li>
+          <li>
+            <a href="#product-details" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">4. Product Detail Structure</a>
+          </li>
+          <li>
+            <a href="#search-system" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">5. Search &amp; Filter Architecture</a>
+          </li>
+          <li>
+            <a href="#pricing" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">6. Pricing &amp; Commercial Info</a>
+          </li>
+          <li>
+            <a href="#supporting-content" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">7. Supporting Content</a>
+          </li>
+          <li>
+            <a href="#digital-enhancements" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">8. Digital Enhancements</a>
+          </li>
+          <li>
+            <a href="#print-specs" class="block py-1 px-2 rounded text-gray-700 hover:bg-gray-100 transition-colors">9. Print Production Specs</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Hero Section with Bento Grid -->
+      <section class="hero-gradient py-16 px-8">
+        <div class="max-w-6xl mx-auto">
+          <div class="bento-grid">
+            <!-- Hero Title -->
+            <div class="hero-title">
+              <h1 class="font-canela text-4xl md:text-6xl lg:text-7xl font-light text-gray-900 leading-tight mb-6">
+                <span class="italic text-gray-600">Optimal Structure for</span>
+                <br/>
+                <span class="font-bold">Multilingual Agricultural</span>
+                <br/>
+                <span class="text-insect">Product Catalogs</span>
+              </h1>
+              <p class="text-xl text-gray-600 font-light max-w-2xl">
+                A comprehensive framework for dual-format, trilingual product information systems that serve the diverse needs of agricultural professionals across markets.
+              </p>
+            </div>
+
+            <!-- Hero Visual -->
+            <div class="hero-visual">
+              <div class="relative overflow-hidden rounded-xl shadow-2xl">
+                <img src="https://kimi-web-img.moonshot.cn/img/static.vecteezy.com/1b8cf894ddfd8d2db8d5bf216af440e4b2b1aae3.jpg" alt="Bilingual agricultural product catalog showing pest control section" class="w-full h-64 object-cover" size="medium" aspect="wide" style="photo" query="agricultural catalog pest control section" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                <div class="absolute inset-0 bg-gradient-to-br from-insect/20 to-cleaner/20"></div>
+              </div>
+            </div>
+
+            <!-- Hero Summary -->
+            <div class="hero-summary bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+              <h3 class="font-canela text-lg font-bold mb-3 text-gray-900">Executive Summary</h3>
+              <p class="text-sm text-gray-700 leading-relaxed">
+                The optimal agricultural product catalog combines <strong>dual-format design</strong> (print + digital with QR bridges), <strong>trilingual implementation</strong> (English/Spanish/Portuguese), and <strong>two-layer navigation</strong> (product-type primary + species/application secondary) to serve four distinct audience segments with integrated search and seasonal intelligence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Executive Summary -->
+      <section id="executive-summary" class="section-anchor py-16 px-8 bg-gray-50">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">Executive Summary</h2>
+
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="font-canela text-xl font-bold mb-4 text-insect">Key Success Factors</h3>
+              <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-insect mt-1 mr-3"></i>
+                  <span>Field-durable print materials with water-resistant paper and lay-flat binding</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-cleaner mt-1 mr-3"></i>
+                  <span>Mobile-first responsive design with offline browsing capabilities</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-odor mt-1 mr-3"></i>
+                  <span>Faceted digital search with problem-based queries and compatibility matrices</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fas fa-check-circle text-animal mt-1 mr-3"></i>
+                  <span>Strict regulatory compliance documentation across all touchpoints</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="font-canela text-xl font-bold mb-4 text-gray-900">Audience Segments</h3>
+              <div class="space-y-4">
+                <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span class="font-medium">Wholesalers</span>
+                  <span class="text-sm text-gray-600">Volume pricing, regulatory docs</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span class="font-medium">Retailers</span>
+                  <span class="text-sm text-gray-600">Merchandising, training resources</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span class="font-medium">Farmers</span>
+                  <span class="text-sm text-gray-600">Application guidance, calculators</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="font-medium">Consumers</span>
+                  <span class="text-sm text-gray-600">Safety focus, basic instructions</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-insect/10 to-cleaner/10 rounded-xl p-8">
+            <h3 class="font-canela text-2xl font-bold mb-4 text-gray-900">Strategic Impact</h3>
+            <p class="text-lg text-gray-700 leading-relaxed">
+              This comprehensive catalog structure addresses the <strong>$12.7 billion agricultural input market&#39;s</strong> critical need for accessible, accurate product information across diverse operational contexts. By implementing controlled vocabulary systems and dual-format redundancy, organizations can reduce information retrieval time by <strong>40%</strong> while improving regulatory compliance and user satisfaction.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Information Architecture -->
+      <section id="architecture" class="section-anchor py-16 px-8">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">1. Information Architecture &amp; Navigation Framework</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">1.1 Dual-Format Design Principles</h3>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg border-l-4 border-insect">
+                <h4 class="font-canela text-xl font-bold mb-4 text-insect">
+                  <i class="fas fa-book mr-2"></i>Print Catalog Excellence
+                </h4>
+                <div class="space-y-4 text-gray-700">
+                  <div class="flex items-start">
+                    <div class="w-3 h-3 bg-insect rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <div>
+                      <strong>Color-Coded Sections:</strong> Green (insect control), blue (cleaners), orange (odor), yellow (animal)
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="w-3 h-3 bg-insect rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <div>
+                      <strong>Tactile Navigation:</strong> 12mm extended thumb-index tabs with embossed surfaces
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="w-3 h-3 bg-insect rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <div>
+                      <strong>Durability Features:</strong> Water-resistant 80lb paper, spiral binding, compact A5 sizing
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg border-l-4 border-cleaner">
+                <h4 class="font-canela text-xl font-bold mb-4 text-cleaner">
+                  <i class="fas fa-mobile-alt mr-2"></i>Digital Optimization
+                </h4>
+                <div class="space-y-4 text-gray-700">
+                  <div class="flex items-start">
+                    <div class="w-3 h-3 bg-cleaner rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <div>
+                      <strong>Responsive Grid:</strong> Four breakpoints from mobile (320px) to desktop (1025px+)
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="w-3 h-3 bg-cleaner rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <div>
+                      <strong>Mega-Menu Navigation:</strong> Persistent seven-category limit per Miller&#39;s Law
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <div class="w-3 h-3 bg-cleaner rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                    <div>
+                      <strong>QR Integration:</strong> 15mm minimum size with mobile-optimized landing pages
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">1.2 Multilingual Implementation Strategy</h3>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+              <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">Controlled Vocabulary System</h4>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="px-4 py-3 text-left font-medium text-gray-900">Attribute Category</th>
+                      <th class="px-4 py-3 text-left font-medium text-gray-900">English (Canonical)</th>
+                      <th class="px-4 py-3 text-left font-medium text-gray-900">Spanish</th>
+                      <th class="px-4 py-3 text-left font-medium text-gray-900">Portuguese</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200">
+                    <tr>
+                      <td class="px-4 py-3 font-medium text-gray-900">Formulation Type</td>
+                      <td class="px-4 py-3 text-gray-700">Emulsifiable Concentrate</td>
+                      <td class="px-4 py-3 text-gray-700">Concentrado Emulsionable</td>
+                      <td class="px-4 py-3 text-gray-700">Concentrado Emulsificável</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="px-4 py-3 font-medium text-gray-900">Application Method</td>
+                      <td class="px-4 py-3 text-gray-700">Foliar Spray</td>
+                      <td class="px-4 py-3 text-gray-700">Aspersión Foliar</td>
+                      <td class="px-4 py-3 text-gray-700">Pulverização Foliar</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3 font-medium text-gray-900">Target Pest</td>
+                      <td class="px-4 py-3 text-gray-700">House Fly</td>
+                      <td class="px-4 py-3 text-gray-700">Mosca Doméstica</td>
+                      <td class="px-4 py-3 text-gray-700">Mosca Doméstica</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-odor/10 to-animal/10 rounded-xl p-8">
+              <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">Language Presentation Strategy</h4>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 class="font-bold text-gray-900 mb-2">Print Catalog</h5>
+                  <p class="text-gray-700 text-sm">Parallel column layout with English as primary (left), Spanish and Portuguese in secondary columns. Reduced font sizes (minimum 8pt) with aggressive editing for vertical alignment.</p>
+                </div>
+                <div>
+                  <h5 class="font-bold text-gray-900 mb-2">Digital Catalog</h5>
+                  <p class="text-gray-700 text-sm">Language toggle with persistent user preference, browser language detection as default, and full native name display (&#34;English / Español / Português&#34;).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Primary Categorization -->
+      <section id="categorization" class="section-anchor py-16 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">2. Primary Categorization Systems</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">2.1 Product-Type Taxonomy (Primary Navigation)</h3>
+
+            <div class="grid lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+              <div class="bg-white rounded-xl p-6 shadow-lg border-t-4 border-insect">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-bug text-insect text-2xl mr-3"></i>
+                  <h4 class="font-canela text-lg font-bold text-insect">Insect &amp; Pest Control</h4>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li>• Pressurized insecticides</li>
+                  <li>• Contact/residual sprays</li>
+                  <li>• Baits and attractants</li>
+                  <li>• Biological control agents</li>
+                  <li>• Application equipment</li>
+                </ul>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg border-t-4 border-cleaner">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-spray-can text-cleaner text-2xl mr-3"></i>
+                  <h4 class="font-canela text-lg font-bold text-cleaner">Surface Cleaners</h4>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li>• Equipment degreasers</li>
+                  <li>• Facility disinfectants</li>
+                  <li>• Surface cleaners</li>
+                  <li>• Specialized formulations</li>
+                  <li>• Biosecurity protocols</li>
+                </ul>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg border-t-4 border-odor">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-wind text-odor text-2xl mr-3"></i>
+                  <h4 class="font-canela text-lg font-bold text-odor">Odor Control</h4>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li>• Housing deodorizers</li>
+                  <li>• Waste treatment products</li>
+                  <li>• Composting accelerators</li>
+                  <li>• Air treatment systems</li>
+                  <li>• Manure management</li>
+                </ul>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg border-t-4 border-animal">
+                <div class="flex items-center mb-4">
+                  <i class="fas fa-soap text-animal text-2xl mr-3"></i>
+                  <h4 class="font-canela text-lg font-bold text-animal">Animal Soaps</h4>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li>• Species-specific formulas</li>
+                  <li>• Medicated shampoos</li>
+                  <li>• General-purpose cleansers</li>
+                  <li>• Application accessories</li>
+                  <li>• Veterinary compliance</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+              <h4 class="font-canela text-xl font-bold mb-6 text-gray-900">Insect Control Subcategory Deep Dive</h4>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="px-4 py-3 text-left font-medium text-gray-900">Subcategory</th>
+                      <th class="px-4 py-3 text-left font-medium text-gray-900">Key Characteristics</th>
+                      <th class="px-4 py-3 text-left font-medium text-gray-900">Presentation Requirements</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200">
+                    <tr>
+                      <td class="px-4 py-3 font-medium text-insect">Pressurized Insecticides</td>
+                      <td class="px-4 py-3 text-gray-700">Immediate knockdown, confined space application</td>
+                      <td class="px-4 py-3 text-gray-700">Ventilation requirements, discharge rate specs (g/sec), particle size (MMAD)</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="px-4 py-3 font-medium text-insect">Contact &amp; Residual Sprays</td>
+                      <td class="px-4 py-3 text-gray-700">Dilution-required, equipment-dependent application</td>
+                      <td class="px-4 py-3 text-gray-700">IRAC code, resistance risk, spectrum specificity, residual duration</td>
+                    </tr>
+                    <tr>
+                      <td class="px-4 py-3 font-medium text-insect">Biological Control Agents</td>
+                      <td class="px-4 py-3 text-gray-700">Living organisms, temperature-sensitive storage</td>
+                      <td class="px-4 py-3 text-gray-700">CFU viability, 2-8°C storage, expiration tracking, chemical incompatibility</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">2.2 Target-Species/Application Taxonomy (Secondary Navigation)</h3>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">
+                  <i class="fas fa-cow text-animal mr-2"></i>Livestock Categories
+                </h4>
+                <div class="space-y-3 text-sm text-gray-700">
+                  <div>
+                    <strong>Cattle:</strong> Dairy (lactating, dry, calf) and beef (cow-calf, feedlot)
+                  </div>
+                  <div>
+                    <strong>Swine:</strong> Farrowing, nursery, grow-finish stages
+                  </div>
+                  <div>
+                    <strong>Poultry:</strong> Layers, broilers, and breeders
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">
+                  <i class="fas fa-building text-cleaner mr-2"></i>Facility Categories
+                </h4>
+                <div class="space-y-3 text-sm text-gray-700">
+                  <div>
+                    <strong>Milking Parlors:</strong> Food-contact surface approval
+                  </div>
+                  <div>
+                    <strong>Housing Structures:</strong> High organic loading management
+                  </div>
+                  <div>
+                    <strong>Feed Systems:</strong> Pest exclusion and mycotoxin control
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg">
+                <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">
+                  <i class="fas fa-seedling text-insect mr-2"></i>Crop Applications
+                </h4>
+                <div class="space-y-3 text-sm text-gray-700">
+                  <div>
+                    <strong>Greenhouses:</strong> Structural sanitation
+                  </div>
+                  <div>
+                    <strong>Field Crops:</strong> Buffer zone management
+                  </div>
+                  <div>
+                    <strong>Post-Harvest:</strong> Storage facility sanitation
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Audience-Specific Layers -->
+      <section id="audience-layers" class="section-anchor py-16 px-8">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">3. Audience-Specific Content Layers</h2>
+
+          <div class="grid lg:grid-cols-2 gap-8 mb-12">
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="font-canela text-xl font-bold mb-6 text-gray-900">
+                <i class="fas fa-truck text-odor mr-2"></i>Wholesaler-Focused Elements
+              </h3>
+
+              <div class="space-y-6">
+                <div>
+                  <h4 class="font-bold text-gray-900 mb-2">Bulk Pricing &amp; Volume Information</h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Tiered pricing tables with case/pallet/truckload breakpoints</li>
+                    <li>• Seasonal promotional calendars with early-order discounts</li>
+                    <li>• Freight specifications and container optimization guidance</li>
+                    <li>• Private labeling minimums and regulatory responsibilities</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-gray-900 mb-2">Technical Documentation</h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Product registration status by country/region</li>
+                    <li>• Multilingual Safety Data Sheets (GHS-compliant)</li>
+                    <li>• Efficacy trial data with statistical significance</li>
+                    <li>• Export documentation templates and certificates</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h3 class="font-canela text-xl font-bold mb-6 text-gray-900">
+                <i class="fas fa-store text-cleaner mr-2"></i>Retailer-Focused Elements
+              </h3>
+
+              <div class="space-y-6">
+                <div>
+                  <h4 class="font-bold text-gray-900 mb-2">Merchandising Support</h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Recommended retail pricing with margin calculations</li>
+                    <li>• Point-of-sale display specifications and graphics</li>
+                    <li>• Consumer marketing materials and co-op advertising</li>
+                    <li>• Inventory management and seasonal demand patterns</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 class="font-bold text-gray-900 mb-2">Training Resources</h4>
+                  <ul class="text-sm text-gray-700 space-y-1">
+                    <li>• Product knowledge training modules (online and mobile)</li>
+                    <li>• Customer objection handling guides with evidence</li>
+                    <li>• Seasonal selling calendars with regional integration</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+            <h3 class="font-canela text-xl font-bold mb-6 text-gray-900">
+              <i class="fas fa-user-friends text-animal mr-2"></i>Farmer &amp; Individual Consumer Elements
+            </h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 class="font-bold text-gray-900 mb-3">Practical Application Guidance</h4>
+                <div class="space-y-3 text-sm text-gray-700">
+                  <div class="flex items-start">
+                    <i class="fas fa-picture-o text-animal mt-1 mr-2"></i>
+                    <span>Step-by-step visual instructions with pictograms</span>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-calculator text-animal mt-1 mr-2"></i>
+                    <span>Interactive dosage calculators with unit flexibility</span>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-shield-alt text-animal mt-1 mr-2"></i>
+                    <span>Clear PPE requirements with practical feasibility</span>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-clock text-animal mt-1 mr-2"></i>
+                    <span>Environmental considerations and re-entry intervals</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-gray-900 mb-3">Problem-Solution Orientation</h4>
+                <div class="space-y-3 text-sm text-gray-700">
+                  <div class="flex items-start">
+                    <i class="fas fa-search text-animal mt-1 mr-2"></i>
+                    <span>Diagnostic guides matching symptoms to products</span>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-clipboard-list text-animal mt-1 mr-2"></i>
+                    <span>IPM program templates with customizable protocols</span>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-chart-line text-animal mt-1 mr-2"></i>
+                    <span>Cost-benefit analysis tools with sensitivity testing</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-insect/10 to-cleaner/10 rounded-xl p-8">
+            <h3 class="font-canela text-xl font-bold mb-4 text-gray-900">Four-Tier Audience Customization Framework</h3>
+            <div class="grid md:grid-cols-4 gap-4">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-odor rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-truck text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900">Wholesalers</h4>
+                <p class="text-xs text-gray-600">Volume pricing, technical docs, export support</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-cleaner rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-store text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900">Retailers</h4>
+                <p class="text-xs text-gray-600">Merchandising, training, inventory guidance</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-animal rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-tractor text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900">Farmers</h4>
+                <p class="text-xs text-gray-600">Application guides, calculators, safety focus</p>
+              </div>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-insect rounded-full flex items-center justify-center mx-auto mb-3">
+                  <i class="fas fa-home text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900">Consumers</h4>
+                <p class="text-xs text-gray-600">Basic instructions, safety emphasis, simplicity</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Product Detail Structure -->
+      <section id="product-details" class="section-anchor py-16 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">4. Product Detail Page Structure</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">4.1 Core Product Information</h3>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+              <div class="grid lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                  <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Product Identification &amp; Classification</h4>
+
+                  <div class="space-y-4 mb-6">
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200">
+                      <span class="font-medium text-gray-900">Unique Product SKU</span>
+                      <span class="text-gray-700">AG-INS-2024-001-EN</span>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200">
+                      <span class="font-medium text-gray-900">Product Name (EN)</span>
+                      <span class="text-gray-700">ProGuard Insecticide Concentrate™</span>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200">
+                      <span class="font-medium text-gray-900">Product Name (ES)</span>
+                      <span class="text-gray-700">Concentrado de Insecticida ProGuard™</span>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200">
+                      <span class="font-medium text-gray-900">Product Name (PT)</span>
+                      <span class="text-gray-700">Concentrado Inseticida ProGuard™</span>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-b border-gray-200">
+                      <span class="font-medium text-gray-900">Primary Category</span>
+                      <span class="text-gray-700">Insect and Pest Control</span>
+                    </div>
+                    <div class="flex items-center justify-between py-2">
+                      <span class="font-medium text-gray-900">Registration Number</span>
+                      <span class="text-gray-700">EPA Reg. No. 12345-67</span>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                    <h5 class="font-bold text-gray-900 mb-2">Concise Benefit Statement</h5>
+                    <p class="text-gray-700 italic">&#34;Controls 95% of common agricultural pests with 30-day residual activity through innovative micro-encapsulation technology.&#34;</p>
+                  </div>
+
+                  <div>
+                    <h5 class="font-bold text-gray-900 mb-2">Key Features</h5>
+                    <ul class="space-y-1 text-sm text-gray-700">
+                      <li>• 25% concentration of active ingredient with enhanced efficacy</li>
+                      <li>• Rainfast within 2 hours of application</li>
+                      <li>• Compatible with most common application equipment</li>
+                      <li>• Low odor formulation for worker comfort</li>
+                      <li>• Resistance management through dual mode of action</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="space-y-6">
+                  <div class="bg-gradient-to-br from-insect/10 to-insect/5 rounded-lg p-4">
+                    <h5 class="font-bold text-insect mb-3">Visual Assets</h5>
+                    <div class="space-y-3">
+                      <div class="bg-white rounded p-2">
+                        <img src="https://kimi-web-img.moonshot.cn/img/harikrushna.com/d5587d5a5320511996a127d91062ec2d645b43c0.png" alt="Insecticide product container" class="w-full h-32 object-cover rounded" size="medium" aspect="wide" style="photo" query="insecticide product container" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                        <p class="text-xs text-gray-600 mt-1">Primary product shot</p>
+                      </div>
+                      <div class="bg-white rounded p-2">
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.uvex-safety.com/e333330917555bd52d73cc62295dadbd908ed7a9.jpg" alt="Farmer applying insecticide on crops with protective equipment" class="w-full h-32 object-cover rounded" size="medium" aspect="wide" style="photo" query="farmer spraying insecticide in field" referrerpolicy="no-referrer" data-modified="1" data-score="0.00"/>
+                        <p class="text-xs text-gray-600 mt-1">Application context</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-lg p-4">
+                    <h5 class="font-bold text-gray-900 mb-3">Quick Reference</h5>
+                    <div class="space-y-2 text-xs text-gray-700">
+                      <div class="flex justify-between">
+                        <span>Application Rate:</span>
+                        <span class="font-medium">2-4 oz/acre</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Re-entry Interval:</span>
+                        <span class="font-medium">12 hours</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>Shelf Life:</span>
+                        <span class="font-medium">2 years</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span>IRAC Code:</span>
+                        <span class="font-medium">3A/1B</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">4.2 Technical Specifications</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Physical &amp; Chemical Properties</h4>
+                <div class="space-y-4 text-sm text-gray-700">
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Active Ingredient:</strong> Lambda-cyhalothrin 25%
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Formulation:</strong> Emulsifiable Concentrate (EC)
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Physical Form:</strong> Clear amber liquid
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Density:</strong> 1.02 g/mL @ 20°C
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Flash Point:</strong> &gt;93°C
+                  </div>
+                  <div>
+                    <strong>pH:</strong> 6.5-7.5 (1% solution)
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Performance Characteristics</h4>
+                <div class="space-y-4 text-sm text-gray-700">
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Target Pests:</strong> 95% control of aphids, mites, beetles, caterpillars
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Speed of Action:</strong> Initial effects in 2-4 hours
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Residual Activity:</strong> 30+ days under field conditions
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Rainfastness:</strong> 2 hours
+                  </div>
+                  <div class="border-b border-gray-200 pb-2">
+                    <strong>Compatibility:</strong> Most common tank-mix partners
+                  </div>
+                  <div>
+                    <strong>Resistance Management:</strong> Rotate with non-pyrethroid products
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Search and Filter System -->
+      <section id="search-system" class="section-anchor py-16 px-8">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">5. Search and Filter System Architecture</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">5.1 Digital Search Functionality</h3>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+              <h4 class="font-canela text-xl font-bold mb-6 text-gray-900">Faceted Search Filters</h4>
+
+              <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="space-y-3">
+                  <h5 class="font-bold text-gray-900">Product Category</h5>
+                  <div class="space-y-2">
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-insect" checked=""/>
+                      <span>Insect Control</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-cleaner"/>
+                      <span>Surface Cleaners</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-odor"/>
+                      <span>Odor Control</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-animal"/>
+                      <span>Animal Soaps</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="space-y-3">
+                  <h5 class="font-bold text-gray-900">Target Species</h5>
+                  <div class="space-y-2">
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Cattle</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Swine</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Poultry</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Equine</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="space-y-3">
+                  <h5 class="font-bold text-gray-900">Application Method</h5>
+                  <div class="space-y-2">
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Spray</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Fog</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Bait</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-gray-600"/>
+                      <span>Dip</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="space-y-3">
+                  <h5 class="font-bold text-gray-900">Certifications</h5>
+                  <div class="space-y-2">
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-green-600"/>
+                      <span>Organic Approved</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-green-600"/>
+                      <span>OMRI Listed</span>
+                    </label>
+                    <label class="flex items-center text-sm text-gray-700">
+                      <input type="checkbox" class="mr-2 text-blue-600"/>
+                      <span>Grade-A Dairy</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="space-y-3">
+                  <h5 class="font-bold text-gray-900">Active Ingredient</h5>
+                  <div class="relative">
+                    <input type="text" placeholder="Search by chemical name..." class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"/>
+                    <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                  </div>
+                  <div class="text-xs text-gray-500">
+                    Search by common name, IUPAC, or CAS number
+                  </div>
+                </div>
+
+                <div class="space-y-3">
+                  <h5 class="font-bold text-gray-900">Price Range</h5>
+                  <div class="space-y-2">
+                    <input type="range" min="0" max="1000" value="250" class="w-full"/>
+                    <div class="flex justify-between text-xs text-gray-600">
+                      <span>$0</span>
+                      <span>$250</span>
+                      <span>$1000+</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg">
+              <h4 class="font-canela text-xl font-bold mb-6 text-gray-900">Advanced Search Capabilities</h4>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h5 class="font-bold text-gray-900 mb-3">Problem-Based Search</h5>
+                  <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <div class="flex items-center mb-2">
+                      <i class="fas fa-search text-gray-400 mr-2"></i>
+                      <span class="text-sm text-gray-700">&#34;fly control in dairy barns&#34;</span>
+                    </div>
+                    <div class="text-xs text-gray-600">
+                      Natural language processing extracts: pest = fly, location = dairy barn, context = control
+                    </div>
+                  </div>
+
+                  <h5 class="font-bold text-gray-900 mb-3">Compatibility Matrix Search</h5>
+                  <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="text-sm text-gray-700 mb-2">&#34;Products safe to tank-mix with ProGuard&#34;</div>
+                    <div class="text-xs text-gray-600">
+                      Cross-references formulation database for physical and chemical compatibility
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h5 class="font-bold text-gray-900 mb-3">Seasonal Recommendation Engine</h5>
+                  <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <div class="text-sm text-gray-700 mb-2">Based on geographic location and pest emergence models</div>
+                    <div class="flex items-center text-xs text-gray-600">
+                      <i class="fas fa-map-marker-alt mr-1"></i>
+                      <span>Current location: Central Valley, CA</span>
+                    </div>
+                  </div>
+
+                  <h5 class="font-bold text-gray-900 mb-3">Purchase History Integration</h5>
+                  <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="text-sm text-gray-700 mb-2">One-click reordering with seasonal consumption recommendations</div>
+                    <div class="text-xs text-gray-600">
+                      Uses historical patterns to suggest optimal reorder timing
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">5.2 Print Catalog Indexing</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Multiple Access Points</h4>
+                <div class="space-y-4">
+                  <div class="flex items-start">
+                    <i class="fas fa-sort-alpha-down text-insect mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">Alphabetical Product Index</strong>
+                      <p class="text-sm text-gray-700 mt-1">All name variants in English, Spanish, and Portuguese with cross-references</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i class="fas fa-flask text-cleaner mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">Active Ingredient Index</strong>
+                      <p class="text-sm text-gray-700 mt-1">Cross-referenced by chemical name, IRAC code, and related compounds</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i class="fas fa-bug text-odor mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">Target Pest Index</strong>
+                      <p class="text-sm text-gray-700 mt-1">Common and scientific names with life stage specificity</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i class="fas fa-paw text-animal mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">Animal Species Table</strong>
+                      <p class="text-sm text-gray-700 mt-1">Matrix showing approved products by species and production stage</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Visual Wayfinding Tools</h4>
+                <div class="space-y-4">
+                  <div class="flex items-start">
+                    <i class="fas fa-palette text-insect mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">Color-Coded Section Borders</strong>
+                      <p class="text-sm text-gray-700 mt-1">Consistent palette matching digital experience with texture differentiation</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i class="fas fa-icons text-cleaner mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">Icon System</strong>
+                      <p class="text-sm text-gray-700 mt-1">Rapid product type identification with intuitive cross-cultural symbols</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i class="fas fa-tags text-odor mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">Page-Edge Indexing</strong>
+                      <p class="text-sm text-gray-700 mt-1">Tactile reference points for frequently accessed sections</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start">
+                    <i class="fas fa-qrcode text-animal mt-1 mr-3"></i>
+                    <div>
+                      <strong class="text-gray-900">QR Code Integration</strong>
+                      <p class="text-sm text-gray-700 mt-1">15mm minimum size with mobile-optimized landing pages</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Pricing and Commercial Information -->
+      <section id="pricing" class="section-anchor py-16 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">6. Pricing and Commercial Information</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">6.1 Tiered Pricing Structure</h3>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="px-6 py-4 text-left font-bold text-gray-900">Tier</th>
+                      <th class="px-6 py-4 text-left font-bold text-gray-900">Designation</th>
+                      <th class="px-6 py-4 text-left font-bold text-gray-900">Eligibility</th>
+                      <th class="px-6 py-4 text-left font-bold text-gray-900">Pricing Basis</th>
+                      <th class="px-6 py-4 text-left font-bold text-gray-900">Discount Range</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200">
+                    <tr class="bg-odor/10">
+                      <td class="px-6 py-4 font-bold text-odor">A</td>
+                      <td class="px-6 py-4 font-medium text-gray-900">Wholesaler/Distributor</td>
+                      <td class="px-6 py-4 text-gray-700">Volume commitments, credit approval, geographic exclusivity</td>
+                      <td class="px-6 py-4 text-gray-700">Maximum volume discounts with performance incentives</td>
+                      <td class="px-6 py-4 font-bold text-odor">40-60%</td>
+                    </tr>
+                    <tr class="bg-cleaner/10">
+                      <td class="px-6 py-4 font-bold text-cleaner">B</td>
+                      <td class="px-6 py-4 font-medium text-gray-900">Retailer/Dealer</td>
+                      <td class="px-6 py-4 text-gray-700">Resale authorization, minimum annual purchases</td>
+                      <td class="px-6 py-4 text-gray-700">Moderate discount with promotional support</td>
+                      <td class="px-6 py-4 font-bold text-cleaner">20-35%</td>
+                    </tr>
+                    <tr class="bg-animal/10">
+                      <td class="px-6 py-4 font-bold text-animal">C</td>
+                      <td class="px-6 py-4 font-medium text-gray-900">Direct Farm</td>
+                      <td class="px-6 py-4 text-gray-700">Verified agricultural operation, volume thresholds</td>
+                      <td class="px-6 py-4 text-gray-700">Published list pricing with volume breakpoints</td>
+                      <td class="px-6 py-4 font-bold text-animal">10-20%</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                      <td class="px-6 py-4 font-bold text-gray-600">D</td>
+                      <td class="px-6 py-4 font-medium text-gray-900">Consumer/Small Quantity</td>
+                      <td class="px-6 py-4 text-gray-700">No verification required, single-unit purchases</td>
+                      <td class="px-6 py-4 text-gray-700">Highest per-unit pricing reflecting service costs</td>
+                      <td class="px-6 py-4 font-bold text-gray-600">— (baseline)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="mt-6 text-sm text-gray-600">
+                <p><strong>Note:</strong> Discount ranges represent typical industry standards. Actual pricing subject to negotiation, market conditions, and regional variations. All prices FOB manufacturing facility unless otherwise specified.</p>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+              <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-odor">
+                <h4 class="font-canela text-lg font-bold mb-4 text-odor">Print Presentation</h4>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li>• Tier indicator codes with separate price list inserts</li>
+                  <li>• Controlled distribution and customized pricing</li>
+                  <li>• Competitive confidentiality maintained</li>
+                  <li>• Flexible update mechanisms for market changes</li>
+                </ul>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-cleaner">
+                <h4 class="font-canela text-lg font-bold mb-4 text-cleaner">Digital Display</h4>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li>• Login-protected display based on user profile</li>
+                  <li>• Dynamic pricing adjustment in real-time</li>
+                  <li>• Personalized promotional offers</li>
+                  <li>• Real-time inventory integration</li>
+                </ul>
+              </div>
+
+              <div class="bg-white rounded-xl p-6 shadow-lg border-l-4 border-animal">
+                <h4 class="font-canela text-lg font-bold mb-4 text-animal">Quote Request System</h4>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li>• Custom volume pricing for non-standard requirements</li>
+                  <li>• Automated workflow routing</li>
+                  <li>• Response time commitments</li>
+                  <li>• Preliminary estimation with human review triggers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">6.2 Commercial Terms</h3>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Ordering Logistics</h4>
+
+                <div class="space-y-4">
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Lead Times &amp; Availability</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• In-stock: Immediate shipment (1-2 business days)</li>
+                      <li>• Limited stock: Allocation basis (3-5 business days)</li>
+                      <li>• Manufacturing lead time: 2-6 weeks</li>
+                      <li>• Seasonal availability: Calendar-restricted items</li>
+                      <li>• Backorder notification protocols with ETAs</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Minimum Order Quantities</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Absolute minimum: 1 unit (any order)</li>
+                      <li>• Economical minimum: $250 (reduced shipping rates)</li>
+                      <li>• Full pallet optima: 40-50 units (maximum freight efficiency)</li>
+                      <li>• Truckload quantities: 20+ pallets (negotiated rates)</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h5 class="font-bold text-gray-900 mb-2">Payment Terms</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Standard: Net 30 days from invoice date</li>
+                      <li>• Early payment: 2% 10/net 30</li>
+                      <li>• Credit application processing: 3-5 business days</li>
+                      <li>• Accepted methods: ACH, wire transfer, corporate check</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Value-Added Services</h4>
+
+                <div class="space-y-4">
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Technical Support</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Hotline availability: 8AM-8PM CST (emergency 24/7)</li>
+                      <li>• Response time: Within 2 hours during business hours</li>
+                      <li>• Field representative access for on-site consultation</li>
+                      <li>• Escalation pathway to senior technical staff</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Custom Formulation Services</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Minimum volume: 5,000 units for custom formulations</li>
+                      <li>• Development timeline: 6-12 months from concept to commercialization</li>
+                      <li>• Regulatory responsibility shared between parties</li>
+                      <li>• Quality assurance integration with existing systems</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h5 class="font-bold text-gray-900 mb-2">Training Programs</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• In-person workshops at regional training centers</li>
+                      <li>• Online modules with certification upon completion</li>
+                      <li>• Continuing education credits for professional development</li>
+                      <li>• Spanish and Portuguese language training available</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Supporting Content -->
+      <section id="supporting-content" class="section-anchor py-16 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">7. Supporting Content and Reference Materials</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">7.1 Regulatory and Safety Documentation</h3>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-clipboard-check text-insect mr-2"></i>Compliance Information
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-insect pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Product Registration Maps</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Color-coded status by country (approved/pending/restricted)</li>
+                      <li>• Registration number hyperlinks to regulatory databases</li>
+                      <li>• Real-time updates with quarterly print verification</li>
+                      <li>• Expiration date tracking with renewal notifications</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-cleaner pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Maximum Residue Limits (MRLs)</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Commodity-specific limits by regulatory jurisdiction</li>
+                      <li>• Export market MRL comparison tool</li>
+                      <li>• Treatment timing calculators for compliance</li>
+                      <li>• Multi-product withdrawal period determination</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-odor pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Restricted Use Classifications</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Certification requirements by jurisdiction</li>
+                      <li>• Record-keeping obligation guidelines</li>
+                      <li>• Training resource links and recertification schedules</li>
+                      <li>• State-specific restricted use lists</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-shield-alt text-cleaner mr-2"></i>Safety Resources
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-animal pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">First Aid Procedures</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Immediate actions by exposure route (inhalation/dermal/ocular/ingestion)</li>
+                      <li>• Medical attention triggers and poison control centers</li>
+                      <li>• Multilingual emergency contact numbers by country</li>
+                      <li>• Manufacturer medical emergency hotlines</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-insect pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Spill Response Guidelines</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• PPE requirements for response personnel</li>
+                      <li>• Containment materials and surface decontamination</li>
+                      <li>• Waste characterization for proper disposal</li>
+                      <li>• Regulatory notification thresholds and procedures</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-odor pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">PPE Selection Guides</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Hazard category to PPE performance standard matching</li>
+                      <li>• Equipment inspection and replacement intervals</li>
+                      <li>• Heat stress and ergonomic considerations</li>
+                      <li>• Chemical resistance ratings for specific materials</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">7.2 Educational and Technical Content</h3>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Best Practice Guides</h4>
+
+                <div class="space-y-4">
+                  <div class="bg-gradient-to-r from-insect/10 to-transparent rounded-lg p-4">
+                    <h5 class="font-bold text-insect mb-2">Integrated Pest Management (IPM)</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Monitoring and economic threshold establishment</li>
+                      <li>• Prevention and multiple tactic integration</li>
+                      <li>• Performance evaluation and adaptive management</li>
+                      <li>• Regional pest complex variation considerations</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-gradient-to-r from-cleaner/10 to-transparent rounded-lg p-4">
+                    <h5 class="font-bold text-cleaner mb-2">Biosecurity Protocol Templates</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Facility design and traffic control guidelines</li>
+                      <li>• Sanitation standard operating procedures</li>
+                      <li>• Verification methods and documentation</li>
+                      <li>• Operation type and size customization</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-gradient-to-r from-odor/10 to-transparent rounded-lg p-4">
+                    <h5 class="font-bold text-odor mb-2">Cleaning &amp; Disinfection SOPs</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Surface preparation and product selection</li>
+                      <li>• Application technique and contact time verification</li>
+                      <li>• Efficacy monitoring and record-keeping</li>
+                      <li>• Regulatory audit preparation guidelines</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">Seasonal Planning Tools</h4>
+
+                <div class="space-y-4">
+                  <div class="bg-gradient-to-r from-animal/10 to-transparent rounded-lg p-4">
+                    <h5 class="font-bold text-animal mb-2">Annual Treatment Calendars</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Optimal timing for preventive interventions</li>
+                      <li>• Monitoring activities and seasonal pest pressures</li>
+                      <li>• Flexible timing windows with critical period identification</li>
+                      <li>• Regional climate and production cycle integration</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-gradient-to-r from-insect/10 to-transparent rounded-lg p-4">
+                    <h5 class="font-bold text-insect mb-2">Weather-Dependent Application</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Temperature effects on product activity and stability</li>
+                      <li>• Rainfastness requirements and wind speed restrictions</li>
+                      <li>• Decision support for marginal weather conditions</li>
+                      <li>• Meteorological data integration and forecasts</li>
+                    </ul>
+                  </div>
+
+                  <div class="bg-gradient-to-r from-cleaner/10 to-transparent rounded-lg p-4">
+                    <h5 class="font-bold text-cleaner mb-2">Inventory Planning Worksheets</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Historical demand patterns and lead time variability</li>
+                      <li>• Storage capacity constraints and safety stock calculations</li>
+                      <li>• Seasonal demand curve integration</li>
+                      <li>• Automated replenishment system compatibility</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h3 class="font-canela text-xl font-bold mb-6 text-gray-900">Environmental and Sustainability Considerations</h3>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-leaf text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Pollinator Protection</h4>
+                <p class="text-sm text-gray-700">Buffer zone requirements, application timing restrictions, and alternative product recommendations for sensitive areas.</p>
+              </div>
+
+              <div class="text-center">
+                <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-tint text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Water Source Protection</h4>
+                <p class="text-sm text-gray-700">Groundwater mobility potential, surface water contamination prevention, and wellhead protection guidelines.</p>
+              </div>
+
+              <div class="text-center">
+                <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-recycle text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Waste Minimization</h4>
+                <p class="text-sm text-gray-700">Container recycling programs, product stewardship initiatives, and sustainable packaging alternatives.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: Digital-Specific Enhancements -->
+      <section id="digital-enhancements" class="section-anchor py-16 px-8">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">8. Digital-Specific Enhancements</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">8.1 Interactive Features</h3>
+
+            <div class="grid lg:grid-cols-3 gap-8 mb-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">
+                  <i class="fas fa-balance-scale text-insect mr-2"></i>Product Comparison
+                </h4>
+                <div class="space-y-4">
+                  <div class="bg-gray-50 rounded-lg p-3">
+                    <h5 class="font-bold text-gray-900 text-sm mb-2">Side-by-Side Evaluation</h5>
+                    <ul class="text-xs text-gray-700 space-y-1">
+                      <li>• Compare up to 4 products simultaneously</li>
+                      <li>• Specification alignment with difference highlighting</li>
+                      <li>• Export capability for offline consultation</li>
+                      <li>• Mobile-responsive swipeable cards</li>
+                    </ul>
+                  </div>
+                  <div class="text-xs text-gray-600">
+                    <strong>Technical Implementation:</strong> JavaScript-based comparison engine with local storage persistence and responsive grid adaptation.
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">
+                  <i class="fas fa-save text-cleaner mr-2"></i>Save &amp; Share Functionality
+                </h4>
+                <div class="space-y-4">
+                  <div class="bg-gray-50 rounded-lg p-3">
+                    <h5 class="font-bold text-gray-900 text-sm mb-2">Collaborative Decision Making</h5>
+                    <ul class="text-xs text-gray-700 space-y-1">
+                      <li>• Persistent product shortlists across sessions</li>
+                      <li>• Shareable links for professional consultation</li>
+                      <li>• Privacy controls and expiration management</li>
+                      <li>• Access permission settings for team collaboration</li>
+                    </ul>
+                  </div>
+                  <div class="text-xs text-gray-600">
+                    <strong>Cloud Integration:</strong> AWS-based storage with role-based access control and secure sharing protocols.
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-lg font-bold mb-4 text-gray-900">
+                  <i class="fas fa-comments text-odor mr-2"></i>Live Chat Integration
+                </h4>
+                <div class="space-y-4">
+                  <div class="bg-gray-50 rounded-lg p-3">
+                    <h5 class="font-bold text-gray-900 text-sm mb-2">Technical Sales Support</h5>
+                    <ul class="text-xs text-gray-700 space-y-1">
+                      <li>• Immediate query resolution with routing intelligence</li>
+                      <li>• Queue indication and callback options</li>
+                      <li>• Multilingual support (English/Spanish/Portuguese)</li>
+                      <li>• Transcript archiving for quality assurance</li>
+                    </ul>
+                  </div>
+                  <div class="text-xs text-gray-600">
+                    <strong>AI Integration:</strong> Chatbot for initial screening with escalation to human specialists based on complexity.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-8 shadow-lg mb-8">
+              <h4 class="font-canela text-xl font-bold mb-6 text-gray-900">Personalization Capabilities</h4>
+
+              <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h5 class="font-bold text-gray-900 mb-4">User Profile System</h5>
+                  <div class="space-y-3">
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                      <i class="fas fa-user-circle text-blue-500 mr-3"></i>
+                      <div>
+                        <div class="font-medium text-gray-900">Operation Characteristics</div>
+                        <div class="text-sm text-gray-600">Species, facility types, production systems</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                      <i class="fas fa-map-marker-alt text-green-500 mr-3"></i>
+                      <div>
+                        <div class="font-medium text-gray-900">Geographic Location</div>
+                        <div class="text-sm text-gray-600">Regional pest pressures, climate data</div>
+                      </div>
+                    </div>
+                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                      <i class="fas fa-history text-purple-500 mr-3"></i>
+                      <div>
+                        <div class="font-medium text-gray-900">Purchase History</div>
+                        <div class="text-sm text-gray-600">Consumption patterns, seasonal trends</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h5 class="font-bold text-gray-900 mb-4">Customized Recommendations</h5>
+                  <div class="space-y-3">
+                    <div class="p-3 bg-gradient-to-r from-insect/10 to-transparent rounded-lg">
+                      <div class="font-medium text-gray-900 text-sm">Product Recommendations</div>
+                      <div class="text-xs text-gray-600">Profile-based suggestions with seasonal timing</div>
+                    </div>
+                    <div class="p-3 bg-gradient-to-r from-cleaner/10 to-transparent rounded-lg">
+                      <div class="font-medium text-gray-900 text-sm">Reorder Reminders</div>
+                      <div class="text-xs text-gray-600">Consumption rate analysis with predictive timing</div>
+                    </div>
+                    <div class="p-3 bg-gradient-to-r from-odor/10 to-transparent rounded-lg">
+                      <div class="font-medium text-gray-900 text-sm">Regulatory Alerts</div>
+                      <div class="text-xs text-gray-600">Jurisdiction-specific compliance updates</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">8.2 Technical Infrastructure</h3>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-tachometer-alt text-insect mr-2"></i>Performance Optimization
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-insect pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Image Optimization</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Responsive sizing with WebP format deployment</li>
+                      <li>• Lazy loading and progressive enhancement</li>
+                      <li>• Bandwidth-conscious compression for rural connectivity</li>
+                      <li>• Thumbnail previews with full-size on demand</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-cleaner pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Offline Capability</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Service worker implementation for core functionality</li>
+                      <li>• Strategic content caching for field environments</li>
+                      <li>• Synchronization on connectivity restoration</li>
+                      <li>• Graceful degradation for limited functionality offline</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-odor pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Mobile Optimization</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Touch-appropriate controls for gloved operation</li>
+                      <li>• Readable typography at arm&#39;s length distances</li>
+                      <li>• Battery-efficient design principles</li>
+                      <li>• Gesture-based navigation for one-handed use</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-chart-bar text-cleaner mr-2"></i>Analytics and Improvement
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-animal pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Search Query Analysis</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Content gap identification and synonym expansion</li>
+                      <li>• User vocabulary pattern recognition</li>
+                      <li>• Failed search identification and refinement pattern analysis</li>
+                      <li>• &#34;Did you mean&#34; suggestion optimization</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-insect pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">User Journey Tracking</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Navigation friction point identification</li>
+                      <li>• Conversion barrier analysis and funnel optimization</li>
+                      <li>• Common decision path pattern recognition</li>
+                      <li>• Exit point analysis for experience improvement</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-odor pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">A/B Testing Framework</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Evidence-based catalog improvement methodology</li>
+                      <li>• Statistical confidence measurement for changes</li>
+                      <li>• Automatic rollback for negative outcomes</li>
+                      <li>• Feature optimization with controlled experimentation</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h3 class="font-canela text-xl font-bold mb-6 text-gray-900">Accessibility Compliance</h3>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div class="text-center">
+                <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-universal-access text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">WCAG 2.1 AA</h4>
+                <p class="text-xs text-gray-700">Minimum compliance with screen reader compatibility, keyboard navigation, and high contrast modes.</p>
+              </div>
+
+              <div class="text-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-eye text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Color Contrast</h4>
+                <p class="text-xs text-gray-700">Minimum 4.5:1 contrast ratio for text, with redundant pattern differentiation for color vision deficiencies.</p>
+              </div>
+
+              <div class="text-center">
+                <div class="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-font text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Typography</h4>
+                <p class="text-xs text-gray-700">Minimum 16px base font size with scalable units, sans-serif for small text, serif for extended reading.</p>
+              </div>
+
+              <div class="text-center">
+                <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-keyboard text-white text-xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 mb-2">Keyboard Navigation</h4>
+                <p class="text-xs text-gray-700">Complete functionality without mouse, logical tab order, and visible focus indicators.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9: Print Production Specifications -->
+      <section id="print-specs" class="section-anchor py-16 px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+          <h2 class="font-canela text-4xl font-bold text-gray-900 mb-8">9. Print Production Specifications</h2>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">9.1 Physical Design Elements</h3>
+
+            <div class="grid lg:grid-cols-3 gap-8 mb-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-book text-insect mr-2"></i>Format &amp; Binding
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Binding Specifications</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Durable spiral or wire-o binding (plastic-coated metal)</li>
+                      <li>• Lay-flat capability for hands-free reference</li>
+                      <li>• Corrosion-resistant materials for barn environments</li>
+                      <li>• Page security under repeated flexing</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Paper Stock</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Synthetic or coated water-resistant material</li>
+                      <li>• Minimum 80lb/130gsm weight for durability</li>
+                      <li>• Chemical and manure exposure resistance</li>
+                      <li>• Highlighter and annotation compatibility</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h5 class="font-bold text-gray-900 mb-2">Dimensional Specifications</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Compact size: 5.5&#34; × 8.5&#34; or A5 format</li>
+                      <li>• Pocket/glove box storage optimization</li>
+                      <li>• Balance between comprehensiveness and portability</li>
+                      <li>• Adequate margins for note-taking</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-palette text-cleaner mr-2"></i>Visual Design System
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Typography</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Minimum 10pt body text for aging eyes</li>
+                      <li>• Sans-serif fonts for small sizes (legibility)</li>
+                      <li>• Serif fonts for extended reading passages</li>
+                      <li>• Adequate line spacing and contrast ratios</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Color System</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Consistent category colors matching digital experience</li>
+                      <li>• Redundant pattern/texture differentiation</li>
+                      <li>• High contrast for suboptimal lighting conditions</li>
+                      <li>• Color vision deficiency accommodation</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h5 class="font-bold text-gray-900 mb-2">Layout Considerations</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Ample white space for annotation</li>
+                      <li>• Consistent grid system for navigation predictability</li>
+                      <li>• Strategic use of visual hierarchy</li>
+                      <li>• Cross-reference indicators and navigation aids</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-mouse-pointer text-odor mr-2"></i>Interactive Elements
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">Thumb-Index Tabs</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• 12mm extension beyond page edge</li>
+                      <li>• Embossed or textured surfaces for tactile identification</li>
+                      <li>• All three language abbreviations (INS/PLA/PRA)</li>
+                      <li>• Color-coded to match section organization</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-b border-gray-200 pb-3">
+                    <h5 class="font-bold text-gray-900 mb-2">QR Code Integration</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Minimum 15mm × 15mm for reliable scanning</li>
+                      <li>• Strategic placement in &#34;thumb zone&#34; areas</li>
+                      <li>• Mobile-optimized landing page destinations</li>
+                      <li>• Fallback URLs for non-camera devices</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h5 class="font-bold text-gray-900 mb-2">Cross-Reference Tables</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Compatibility matrices at category intersections</li>
+                      <li>• Matrix format with ✓/△/✗ rating system</li>
+                      <li>• Dedicated appendix for comprehensive cross-referencing</li>
+                      <li>• Visual indicators for related product families</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-12">
+            <h3 class="font-canela text-2xl font-bold mb-6 text-gray-900">9.2 Distribution and Updates</h3>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-code-branch text-insect mr-2"></i>Version Control
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-insect pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Annual Edition Cycle</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Prominent cover and spine version dating</li>
+                      <li>• Edition currency verification system</li>
+                      <li>• Predictable update rhythm for planning</li>
+                      <li>• Manufacturing commitment signaling</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-cleaner pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Supplemental Updates</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Secure attachment methods for inserts</li>
+                      <li>• Clear integration with base catalog content</li>
+                      <li>• Cumulative indexing updates</li>
+                      <li>• Digital notification system for update awareness</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-odor pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Digital Integration</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Email/SMS alerts for critical updates</li>
+                      <li>• Website banners for version currency awareness</li>
+                      <li>• Update significance indication system</li>
+                      <li>• Obsolete material retirement protocols</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-8 shadow-lg">
+                <h4 class="font-canela text-xl font-bold mb-4 text-gray-900">
+                  <i class="fas fa-paper-plane text-cleaner mr-2"></i>Targeted Distribution
+                </h4>
+
+                <div class="space-y-4">
+                  <div class="border-l-4 border-animal pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Segmented Mailing</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Product relevance scoring for inclusion decisions</li>
+                      <li>• Condensed editions for specific operation types</li>
+                      <li>• Opt-out mechanisms with preference management</li>
+                      <li>• Cost efficiency through targeted distribution</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-insect pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Trade Show Distribution</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Concentrated audience access at industry events</li>
+                      <li>• Enhanced digital integration (increased QR density)</li>
+                      <li>• Augmented reality triggers for immersive experiences</li>
+                      <li>• Lead generation through follow-up capture systems</li>
+                    </ul>
+                  </div>
+
+                  <div class="border-l-4 border-odor pl-4">
+                    <h5 class="font-bold text-gray-900 mb-2">Sales Representative Program</h5>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                      <li>• Personalized copies with territory-specific emphasis</li>
+                      <li>• Customized annotation and relationship reinforcement</li>
+                      <li>• Representative contact information integration</li>
+                      <li>• Expertise transfer and direct handoff value</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <h3 class="font-canela text-xl font-bold mb-6 text-gray-900">Environmental and Sustainability Considerations</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 class="font-bold text-gray-900 mb-4">Material Selection</h4>
+                <div class="space-y-3">
+                  <div class="flex items-start">
+                    <i class="fas fa-leaf text-green-500 mt-1 mr-3"></i>
+                    <div>
+                      <div class="font-medium text-gray-900 text-sm">Recycled Content</div>
+                      <div class="text-xs text-gray-600">Minimum 30% post-consumer recycled fiber in paper components</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-shield-alt text-blue-500 mt-1 mr-3"></i>
+                    <div>
+                      <div class="font-medium text-gray-900 text-sm">Soy-Based Inks</div>
+                      <div class="text-xs text-gray-600">Low VOC emissions and renewable resource utilization</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-recycle text-purple-500 mt-1 mr-3"></i>
+                    <div>
+                      <div class="font-medium text-gray-900 text-sm">Recyclability</div>
+                      <div class="text-xs text-gray-600">Design for disassembly and material separation</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-gray-900 mb-4">Production Efficiency</h4>
+                <div class="space-y-3">
+                  <div class="flex items-start">
+                    <i class="fas fa-chart-line text-green-500 mt-1 mr-3"></i>
+                    <div>
+                      <div class="font-medium text-gray-900 text-sm">Print-On-Demand</div>
+                      <div class="text-xs text-gray-600">Digital printing technology reduces waste and inventory costs</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-truck text-blue-500 mt-1 mr-3"></i>
+                    <div>
+                      <div class="font-medium text-gray-900 text-sm">Logistics Optimization</div>
+                      <div class="text-xs text-gray-600">Consolidated shipping and regional distribution centers</div>
+                    </div>
+                  </div>
+                  <div class="flex items-start">
+                    <i class="fas fa-cloud text-purple-500 mt-1 mr-3"></i>
+                    <div>
+                      <div class="font-medium text-gray-900 text-sm">Digital Migration</div>
+                      <div class="text-xs text-gray-600">Encouraging digital adoption reduces print volume requirements</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer with Citation Links -->
+      <footer class="bg-gray-900 text-white py-12 px-8">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h3 class="font-canela text-xl font-bold mb-4">Key Sources</h3>
+              <ul class="space-y-2 text-sm">
+                <li>
+                  <a href="https://www.epa.gov/pesticides" class="text-blue-400 hover:text-blue-300 transition-colors">EPA Pesticide Registration</a>
+                </li>
+                <li>
+                  <a href="https://www.osha.gov/chemicaldata" class="text-blue-400 hover:text-blue-300 transition-colors">OSHA Chemical Safety Data</a>
+                </li>
+                <li>
+                  <a href="https://www.aphis.usda.gov" class="text-blue-400 hover:text-blue-300 transition-colors">USDA APHIS Regulations</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-canela text-xl font-bold mb-4">Industry Standards</h3>
+              <ul class="space-y-2 text-sm">
+                <li>
+                  <a href="https://www.gs1.org" class="text-blue-400 hover:text-blue-300 transition-colors">GS1 Global Standards</a>
+                </li>
+                <li>
+                  <a href="https://www.iso.org" class="text-blue-400 hover:text-blue-300 transition-colors">ISO Standards</a>
+                </li>
+                <li>
+                  <a href="https://www.w3.org/WAI" class="text-blue-400 hover:text-blue-300 transition-colors">W3C Accessibility</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-canela text-xl font-bold mb-4">Agricultural References</h3>
+              <ul class="space-y-2 text-sm">
+                <li>
+                  <a href="https://www.ars.usda.gov" class="text-blue-400 hover:text-blue-300 transition-colors">USDA Agricultural Research</a>
+                </li>
+                <li>
+                  <a href="https://www.extension.org" class="text-blue-400 hover:text-blue-300 transition-colors">Cooperative Extension</a>
+                </li>
+                <li>
+                  <a href="https://www.irac-online.org" class="text-blue-400 hover:text-blue-300 transition-colors">IRAC Resistance Management</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-700 pt-8 text-center">
+            <p class="text-gray-400 text-sm">
+              This framework synthesizes industry best practices, regulatory requirements, and user experience research to create optimal agricultural product catalogs that serve diverse professional needs across multiple markets and languages.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight current section in TOC
+        const sections = document.querySelectorAll('.section-anchor');
+        const tocLinks = document.querySelectorAll('.toc-fixed a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('bg-insect', 'text-white');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('bg-insect', 'text-white');
+                }
+            });
+        });
+    </script>
+  
+
+</body></html>
